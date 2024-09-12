@@ -4,19 +4,22 @@ namespace Task_Tracker
     internal class Program
     {
        static string fileName = "tasksFile.json";
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            LoadFile(); 
-            List<Tasks> listTasks = new List<Tasks>();
-           
+            
+              List<Tasks> listTasks = new List<Tasks>();
+            listTasks= LoadFile(listTasks);
+
+            Console.WriteLine("'" +listTasks[0].GetCreationDate().ToString() +"'");
+
+
             //Tasks currentTask = new Tasks("go to school");
-            
 
 
-            //string jsonString = JsonSerializer.Serialize(listTasks);
-            //File.WriteAllText(fileName, jsonString);
+
+
             //Console.WriteLine(jsonString);
-            
+
 
 
 
@@ -24,13 +27,30 @@ namespace Task_Tracker
 
 
         }
-      static async void LoadFile() {
-            if (!File.Exists(fileName))
+          static List<Tasks> LoadFile(List<Tasks>? loadingTasks) {
+            try
             {
-                await using FileStream createStream = File.Create(fileName);
+                if (!File.Exists(fileName))
+                {
+                     using FileStream createStream = File.Create(fileName);
 
+                }
+                string jsonString = File.ReadAllText(fileName);
+                Console.WriteLine(jsonString);
+                var options = new JsonSerializerOptions { IncludeFields = true };
+                loadingTasks = JsonSerializer.Deserialize<List<Tasks>>(jsonString, options);
+
+                Console.WriteLine("'" + loadingTasks[0].GetName() + "'");
+                return loadingTasks;
             }
-
+            catch (Exception e) { Console.WriteLine(e.Message); }
+            return null;
         }
+
+        List<Tasks> AddTask() {
+
+            return null;
+        }
+    
     }
 }
