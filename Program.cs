@@ -1,12 +1,36 @@
-﻿namespace Task_Tracker
+﻿using System.Text.Json;
+namespace Task_Tracker
 {
     internal class Program
     {
-        static void Main(string[] args)
+       static string fileName = "tasksFile.json";
+        public static async Task Main(string[] args)
         {
-            Tasks abc= new Tasks("aaa");
+            LoadFile(); 
+            List<Tasks> listTasks = new List<Tasks>();
            
-            Console.WriteLine("Hello, World!");
+            //Tasks currentTask = new Tasks("go to school");
+            
+
+
+            //string jsonString = JsonSerializer.Serialize(listTasks);
+            //File.WriteAllText(fileName, jsonString);
+            //Console.WriteLine(jsonString);
+            
+
+
+
+
+
+
+        }
+      static async void LoadFile() {
+            if (!File.Exists(fileName))
+            {
+                await using FileStream createStream = File.Create(fileName);
+
+            }
+
         }
     }
 }
