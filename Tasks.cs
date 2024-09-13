@@ -98,28 +98,44 @@ namespace Task_Tracker
                 if (!File.Exists("autoincrementId.txt"))
                 {
                     using FileStream createStream = File.Create("autoincrementId.txt");
-                    File.WriteAllText("autoincrementId.txt", "0");
+                    
+                    createStream.Close();
+                    
+                    string startingNumber = "0";
+                    
+                    File.WriteAllText("autoincrementId.txt", startingNumber);
+                   
+                    return 0;
                 }
+                else
+                {
+                    int tempId = Int32.Parse(File.ReadAllText("autoincrementId.txt"));
+                    
+                    tempId++;
+                    
+                    File.WriteAllText("autoincrementId.txt", tempId.ToString());
 
-                int tempId = Int32.Parse(File.ReadAllText("autoincrementId.txt"));
-
-                File.WriteAllText("autoincrementId.txt", tempId++.ToString());
-
-
-
-                return tempId;
+                    return tempId;
+                }
             }
             catch (Exception e) { Console.WriteLine(e.Message); }
+            
             return 0;
         }
 
         //method displaying the task
-        public void Display() {
+        public void Display()
+        {
             Console.WriteLine(_id.ToString());
+
             Console.WriteLine(_name.ToString());
+
             //Console.WriteLine(_description.ToString());  //scrapped the idea of description
+
             Console.WriteLine(progress.ToString());
+
             Console.WriteLine(creationDate.ToString());
+
             Console.WriteLine(updatedDate.ToString());
         }
     }
