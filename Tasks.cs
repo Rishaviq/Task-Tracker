@@ -20,9 +20,11 @@ namespace Task_Tracker
         private string _description { get; set; }
         [JsonInclude]
         private string? _progress;
-        private string progress {
+        private string progress
+        {
             get { return _progress ?? ""; }
-            set {
+            set
+            {
                 if (string.Compare(value, "Completed", true) == 0)
                 {
                     _progress = "Completed";
@@ -48,21 +50,23 @@ namespace Task_Tracker
 
 
         //constructors
-        public Tasks(string name, string description)
+
+    /*    public Tasks(string name, string description)
         {
             _id = Aoutoincrementing();
             _description = description;
             _name = name;
-            progress = "to do";
+            progress = "To do";
             creationDate = DateTime.Now;
-        }
+        }*/
         public Tasks(string name)
         {
             _id = Aoutoincrementing();
             _description = "";
             _name = name;
-            progress = "to do";
+            progress = "To do";
             creationDate = DateTime.Now;
+            updatedDate = DateTime.Now;
         }
         [JsonConstructor]
         public Tasks(int _Id, string _Name, string _Description, string _Progress, DateTime CreationDate, DateTime UpdatedDate) =>
@@ -79,8 +83,16 @@ namespace Task_Tracker
         public DateTime GetCreationDate() { return creationDate; }
         public DateTime GetUpdatedDate() { return updatedDate; }
 
+        //set methods
+        public void SetName(string newName) {_name = newName;}
+        public void SetProgress(string newprogress) { progress = newprogress; }
+        public void SetUpdatedDate() { updatedDate = DateTime.Now; }
+
+
+
         //autoincrement method
-        private int Aoutoincrementing() {
+        private int Aoutoincrementing()
+        {
             try
             {
                 if (!File.Exists("autoincrementId.txt"))
@@ -90,7 +102,7 @@ namespace Task_Tracker
                 }
 
                 int tempId = Int32.Parse(File.ReadAllText("autoincrementId.txt"));
-                
+
                 File.WriteAllText("autoincrementId.txt", tempId++.ToString());
 
 
@@ -101,9 +113,18 @@ namespace Task_Tracker
             return 0;
         }
 
+        //method displaying the task
+        public void Display() {
+            Console.WriteLine(_id.ToString());
+            Console.WriteLine(_name.ToString());
+            //Console.WriteLine(_description.ToString());  //scrapped the idea of description
+            Console.WriteLine(progress.ToString());
+            Console.WriteLine(creationDate.ToString());
+            Console.WriteLine(updatedDate.ToString());
+        }
     }
 }
 
 
-    
+
 
